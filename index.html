@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Reader</title>
+  </head>
+  <body>
+    <input type="file" accept=".jpg,.jpeg,.png,.gif" />
+    <script>
+      const file = document.querySelector("input");
+
+      file.addEventListener("change", (e) => {
+        let file = e.target.files[0];
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          const img = document.createElement("img");
+          const imgData = e.target.result;
+          img.src = imgData;
+          document.querySelector("body").appendChild(img);
+          localStorage.setItem("img", imgData);
+        };
+
+        reader.readAsDataURL(file);
+      });
+
+      window.onload = () => {
+        const value = localStorage.getItem("img");
+        if (value) {
+          document.querySelector("input").remove();
+          console.log("Inside If statement");
+
+          const img = document.createElement("img");
+          img.src = value;
+
+          document.querySelector("body").appendChild(img);
+        }
+      };
+    </script>
+  </body>
+</html>
